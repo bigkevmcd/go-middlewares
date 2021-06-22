@@ -10,24 +10,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-func parseArgs(s string) map[string]string {
-	dequote := func(s string) string {
-		return strings.Trim(s, "\"")
-	}
-	splitKV := func(kv string) (string, string) {
-		x := strings.SplitN(kv, "=", 2)
-		return dequote(x[0]), dequote(x[1])
-	}
-
-	args := make(map[string]string)
-	items := strings.Split(s, " ")
-	for _, v := range items {
-		key, value := splitKV(v)
-		args[key] = value
-	}
-	return args
-}
-
 func TestWithRequestValues(t *testing.T) {
 	var logged []map[string]string
 	logger := funcr.New(func(_, args string) {
@@ -70,4 +52,22 @@ func mustNewRequest(t *testing.T, method, url string, body io.Reader, opts ...fu
 		o(r)
 	}
 	return r
+}
+
+func parseArgs(s string) map[string]string {
+	dequote := func(s string) string {
+		return strings.Trim(s, "\"")
+	}
+	splitKV := func(kv string) (string, string) {
+		x := strings.SplitN(kv, "=", 2)
+		return dequote(x[0]), dequote(x[1])
+	}
+
+	args := make(map[string]string)
+	items := strings.Split(s, " ")
+	for _, v := range items {
+		key, value := splitKV(v)
+		args[key] = value
+	}
+	return args
 }
