@@ -12,7 +12,7 @@ func WithRequestValues(l logr.Logger, r *http.Request) logr.Logger {
 	return l.WithValues(
 		"method", r.Method,
 		"host", r.Host,
-		"path", r.URL.RequestURI(),
+		"path", r.URL.RequestURI(), // TODO: Should this be sanitised?
 		"remote_addr", r.RemoteAddr,
 		"user_agent", r.UserAgent(),
 		"protocol", r.URL.Scheme,
