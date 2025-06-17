@@ -30,9 +30,10 @@ func TestRequestLogger(t *testing.T) {
 			"user_agent": "Go-http-client/1.1",
 			"duration":   "0ms",
 			"protocol":   "",
+			"status":     "200",
 		},
 	}
-	if diff := cmp.Diff(want, logged, cmpopts.IgnoreMapEntries(func(k string, v interface{}) bool {
+	if diff := cmp.Diff(want, logged, cmpopts.IgnoreMapEntries(func(k string, v any) bool {
 		return k == "host" || k == "remote_addr"
 	})); diff != "" {
 		t.Fatalf("failed to capture logs:\n%s", diff)

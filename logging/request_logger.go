@@ -16,7 +16,7 @@ func RequestLogger(l logr.Logger) func(next http.Handler) http.Handler {
 			start := time.Now()
 			defer func() {
 				rl := WithRequestValues(l, r)
-				rl.WithValues("duration", fmt.Sprintf("%dms", time.Since(start).Milliseconds())).Info(http.StatusText(wrapped.Status()))
+				rl.WithValues("duration", fmt.Sprintf("%dms", time.Since(start).Milliseconds()), "status", wrapped.Status()).Info(http.StatusText(wrapped.Status()))
 			}()
 			next.ServeHTTP(wrapped, r)
 		}
